@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project</title>
+
+<style>
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Prompt",sans-serif;
+
+}
+
+:root{
+
+    --text-sm:clamp(0.78rem, 1.75vh, 0.88rem);
+
+    --text-base:clamp(0.85rem, 1.9vh, 0.95rem);
+
+    --text-md:clamp(0.92rem, 2.1vh, 1.05rem);
+
+    --text-lg:clamp(1rem, 2.4vh, 1.15rem);
+
+    --text-xl:clamp(1.2rem, 3vh, 1.45rem);
+
+}
+
+html, body{
+
+    height:100%;
+
+    overflow:hidden;
+
+}
+
+body{
+
+    background:linear-gradient(135deg,#9ac5f7,#e7f2ff);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+    padding:10px;
+
+}
+
+.card{
+
+    width:100%;
+
+    max-width:430px;
+
+    height:calc(100vh - 20px);
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:clamp(12px, 2.5vh, 24px);
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+    position:relative;
+
+    z-index:10;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+h1{
+
+    color:#6bb8ff;
+
+    margin-bottom:clamp(6px, 1vh, 10px);
+
+    font-size:var(--text-xl);
+
+    line-height:1.2;
+
+}
+
+h3{
+
+    font-size:var(--text-md);
+
+    margin:clamp(8px, 1.2vh, 12px) 0 clamp(4px, 0.8vh, 8px);
+
+    color:#444;
+
+    font-weight:600;
+
+}
+
+p{
+
+    color:#555;
+
+    line-height:1.5;
+
+    font-size:var(--text-base);
+
+}
+
+button{
+
+    margin:clamp(4px, 0.7vh, 6px);
+
+    border:none;
+
+    padding:clamp(7px, 1.2vh, 10px) clamp(12px, 2vh, 16px);
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    background:#ff7ea8;
+
+    color:white;
+
+    font-size:var(--text-sm);
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+.mood button{
+
+    background:#f4f4f4;
+
+    color:black;
+
+    font-size:var(--text-lg);
+
+    padding:clamp(6px, 1vh, 10px) clamp(10px, 1.8vh, 14px);
+
+}
+
+#result{
+
+    margin-top:clamp(6px, 1vh, 10px);
+
+    font-size:var(--text-base);
+
+    color:#67bcdd;
+
+    font-weight:bold;
+
+    line-height:1.4;
+
+    min-height:clamp(28px, 4vh, 36px);
+
+}
+
+.heart{
+
+    position:absolute;
+
+    color:pink;
+
+    animation:float 8s linear infinite;
+
+    opacity:.6;
+
+}
+
+@keyframes float{
+
+    from{
+
+        transform:translateY(100vh);
+
+    }
+
+    to{
+
+        transform:translateY(-120px);
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>💌</h1>
+
+<p>
+    เค้าไม่รู้นะว่าตอนนี้เธอรู้สึกยังไงหรือยังรู้สึกดิ่งอยู่รึเปล่า<br>
+    แต่เค้าแค่อยากให้เธอ<br>
+    ค่อยๆ ดีขึ้นในทุกวันนะ 🤍<br>
+    ถ้าวันนี้มันหนักมาก ก็ไม่เป็นไรเลย<br>
+    พักได้ ร้องไห้ได้ ไม่จำเป็นต้องเข้มแข็งตลอดเวลาก็ได้<br>
+    เค้าอาจจะช่วยอะไรเธอไม่ได้มาก แต่ถ้าเมื่อไหร่ที่เธออยากมีใครสักคนรับฟัง<br>
+    หรือแค่อยากมีคนอยู่ด้วย<br>
+    เธอหันมาได้เสมอนะ<br>
+    ขอให้คืนนี้เธอได้นอนหลับสบาย<br>
+    แล้วพรุ่งนี้เป็นวันที่ใจดีกับเธอมากกว่าวันนี้นะ 🌙<br>
+    </p>
+
+<h3>วันนี้เป็นยังไงบ้าง?</h3>
+
+<div class="mood">
+
+<button onclick="showMood(0)">💚</button>
+
+<button onclick="showMood(1)">💛 </button>
+
+<button onclick="showMood(2)">🩵</button>
+
+<button onclick="showMood(3)">💜</button>
+
+</div>
+
+<button onclick="randomMessage()">
+
+💌 สุ่มกำลังใจ
+
+</button>
+
+<div id="result"></div>
+
+<button id="musicBtn" onclick="toggleMusic()">
+    🎵 เปิดเพลง
+</button>
+
+<audio id="bgMusic" loop>
+    <source src="sister.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<script>
+
+const moodText=[
+
+"ขอให้เธอเจอเรื่องดีๆ ในวันธรรมดา",
+
+"ไม่เป็นไรนะ วันที่ธรรมดาก็มีค่าเหมือนกัน",
+
+"ค่อยๆ เดินก็ถึงเหมือนกันเเล้วเธอจะผ่านมันไปได้",
+
+"เธอเก่งมากแล้วนะ ไม่จำเป็นต้องสมบูรณ์แบบก็ได้ ลุกขึ้นใหม่ เค้าเชื่อว่าเธอทำได้"
+
+];
+
+function showMood(i){
+
+document.getElementById("result").innerHTML=moodText[i];
+
+}
+
+const messages = [
+"เธอเก่งมากแล้วนะ 🤍",
+"วันนี้เหนื่อยก็พักได้",
+"ไม่ต้องรีบหายดี",
+"ทุกอย่างจะค่อยๆ ดีขึ้น",
+"ไม่ต้องเร่งตัวเอง ทุกคนมีจังหวะชีวิตเป็นของตัวเอง",
+"ขอบคุณที่ไม่ยอมแพ้",
+"เธอไม่ได้อยู่คนเดียว",
+"ค่อยๆ ไปก็ได้",
+"ขอให้คืนนี้หลับฝันดี 🌙",
+"รอยยิ้มของเธอสวยเสมอ 😊",
+"ไม่เป็นไร ถ้าวันนี้ยังไม่โอเค",
+"ขอให้พรุ่งนี้ใจดีกับเธอ",
+"ทุกความรู้สึกของเธอมีความหมาย",
+"พักได้ แต่ไม่ต้องโทษตัวเอง",
+"เธอมีค่ามากกว่าที่คิด 🤍"
+];
+
+function randomMessage(){
+
+let random=Math.floor(Math.random()*messages.length);
+
+document.getElementById("result").innerHTML=messages[random];
+
+}
+
+for(let i=0;i<30;i++){
+
+let heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="🤍";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.fontSize=(15+Math.random()*20)+"px";
+
+heart.style.animationDuration=(5+Math.random()*8)+"s";
+
+document.body.appendChild(heart);
+
+}
+
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+
+function toggleMusic() {
+    if (music.paused) {
+        music.play();
+        btn.innerHTML = "⏸️ หยุดเพลง";
+    } else {
+        music.pause();
+        btn.innerHTML = "🎵 เปิดเพลง";
+    }
+}
+
+music.addEventListener("ended", () => {
+    btn.innerHTML = "🎵 เปิดเพลง";
+});
+
+</script>
+
+</body>
+
+</html>
